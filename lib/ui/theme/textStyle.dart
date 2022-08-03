@@ -36,6 +36,16 @@ class AppFonts {
       fontSize: 14,
       fontFamily: 'openSansLight',
       fontWeight: FontWeight.w400);
+       static const tinyBlackBold = TextStyle(
+      color: Colors.black,
+      fontSize: 14,
+      fontFamily: 'openSansLight',
+      fontWeight: FontWeight.w700);
+    static const tinyBlack2 = TextStyle(
+      color: Colors.black,
+      fontSize: 12,
+      fontFamily: 'openSansLight',
+      fontWeight: FontWeight.w400);
   static const tinyBlue = TextStyle(
       color: AppColors.primaryColor,
       fontSize: 14,
