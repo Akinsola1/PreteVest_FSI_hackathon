@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:pretevest/ui/responsiveness/responsive.dart';
+import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
 import 'package:pretevest/ui/theme/colors.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
 import 'package:pretevest/ui/widgets/customButton.dart';
@@ -66,7 +67,9 @@ class SignInScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                        child: CustomButton(onTap: () {}, label: 'Sign In')),
+                        child: CustomButton(onTap: () {
+                          Navigator.pushNamed(context, RouteNames.navBar);
+                        }, label: 'Sign In')),
                   ],
                 )
               ],

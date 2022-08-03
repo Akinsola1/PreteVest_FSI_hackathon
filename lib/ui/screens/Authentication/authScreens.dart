@@ -24,8 +24,8 @@ class _AuthScreenState extends State<AuthScreen> {
   bool register = false;
   @override
   void initState() {
-    login = false;
-    register = true;
+    login = true;
+    register = false;
     super.initState();
   }
 

@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
 import 'package:pretevest/ui/widgets/signupProcessCount.dart';
 import 'package:pretevest/ui/widgets/widgetsExport.dart';
@@ -17,10 +17,10 @@ class PersonalInfo extends StatelessWidget {
     return ListView(
       // crossAxisAlignment: CrossAxisAlignment.start,
       // mainAxisSize: MainAxisSize.min,
-      children:[
-          Row(
+      children: [
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children:const  [
+          children: const [
             Text(
               'Personal Info',
               style: AppFonts.blueHeader,
@@ -31,9 +31,9 @@ class PersonalInfo extends StatelessWidget {
           ],
         ),
         Text(
-              'You are almost done 🚀',
-              style: AppFonts.tinyBlack,
-            ),
+          'You are almost done 🚀',
+          style: AppFonts.tinyBlack,
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -64,13 +64,9 @@ class PersonalInfo extends StatelessWidget {
                 'By clicking continue to create an account, you agree to our ',
             style: AppFonts.tinyBlack,
             children: const <TextSpan>[
-              TextSpan(
-                  text: 'Terms of Conditions ',
-                  style: AppFonts.tinyBlue),
+              TextSpan(text: 'Terms of Conditions ', style: AppFonts.tinyBlue),
               TextSpan(text: 'and', style: AppFonts.tinyBlack),
-              TextSpan(
-                  text: ' Privacy Policy',
-                  style: AppFonts.tinyBlue),
+              TextSpan(text: ' Privacy Policy', style: AppFonts.tinyBlue),
             ],
           ),
         ),
@@ -82,10 +78,8 @@ class PersonalInfo extends StatelessWidget {
             Expanded(
                 child: CustomButton(
                     onTap: () {
-                      pageViewController!.nextPage(
-                        duration: Duration(milliseconds: 100),
-                        curve: Curves.ease,
-                      );
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          RouteNames.completionScreen, (route) => false);
                     },
                     label: 'Continue')),
           ],
