@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:js' as js;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -9,10 +11,9 @@ import 'package:pretevest/ui/theme/textStyle.dart';
 import 'package:pretevest/ui/widgets/customAppbar.dart';
 import 'package:pretevest/ui/widgets/customButton.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../responsive_state.dart/responsive_state.dart';
-import '../../screen_route.dart/screen_routes.dart';
+import '../../widgets/widgetsExport.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -22,7 +23,8 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-
+  TextEditingController amount = TextEditingController();
+  final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,76 @@ class _DashBoardState extends State<DashBoard> {
                             const SizedBox(
                               height: 20,
                             ),
-                            CustomButton(onTap: () {}, label: 'Found wallet'),
+                            CustomButton(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        insetPadding: EdgeInsets.all(10),
+                                        title: Text(
+                                          "FOund Wallet",
+                                          style: AppFonts.blueHeader,
+                                        ),
+                                        content: Form(
+                                          key: _key,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CustomTextField(
+                                                labelText: "Amount",
+                                                hintText:
+                                                    "₦10,000 - ₦100,000,000",
+                                                controller: amount,
+                                                textInputType:
+                                                    TextInputType.number,
+                                                validator: (value) => userProv
+                                                    .validateAmount(value!),
+                                                autovalidateMode:
+                                                    AutovalidateMode
+                                                        .onUserInteraction,
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              ResponsiveState(
+                                                  state: userProv.state,
+                                                  busyWidget: const SizedBox(
+                                                      height: 30,
+                                                      width: 30,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                              strokeWidth: 6)),
+                                                  idleWidget: CustomButton(
+                                                      onTap: () async {
+                                                        if (!_key.currentState!
+                                                            .validate()) return;
+                                                        bool u = await userProv
+                                                            .foundWallet(
+                                                                amount.text);
+                                                        if (u) {
+                                                          Navigator.pop(
+                                                              context);
+
+                                                          js.context.callMethod(
+                                                              'open', [
+                                                            userProv
+                                                                .foundWalletResponse
+                                                                .data
+                                                                ?.data
+                                                                ?.link,
+                                                          ]);
+                                                        }
+                                                      },
+                                                      label: "Make request"))
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                label: 'Found wallet'),
                             const SizedBox(
                               height: 20,
                             ),
@@ -95,7 +166,9 @@ class _DashBoardState extends State<DashBoard> {
                                     'To-Do List',
                                     style: AppFonts.bodyBlack,
                                   ),
-                                  const SizedBox(height: 10,),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
                                   getStartedTask(
                                     title: 'Complete your KYC',
                                     subtitle:

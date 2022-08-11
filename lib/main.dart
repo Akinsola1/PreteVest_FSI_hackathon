@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:pretevest/core/contant/provider.dart';
+import 'package:pretevest/core/constant/provider.dart';
 import 'package:provider/provider.dart';
 
 import 'locator.dart';

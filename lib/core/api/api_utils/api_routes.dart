@@ -14,4 +14,8 @@ class ApiRoutes {
   // request Loan
   static const String requestLoan = '$base/loans/request';
   static const String getLoanRequest = '$base/loans/my-requests';
+  
+  //Found wallet 
+  static const String foundWallet = '$base/charge/card';
+
 }

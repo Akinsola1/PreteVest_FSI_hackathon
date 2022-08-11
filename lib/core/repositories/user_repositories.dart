@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pretevest/core/api/User_api/user_api.dart';
-import 'package:pretevest/core/api/data_models/user_response/myLoanRequest.dart';
-import 'package:pretevest/core/api/data_models/user_response/userResponse.dart';
+import 'package:pretevest/core/api/data_models/user_response/foundWalletModel.dart';
+import 'package:pretevest/core/api/data_models/user_response/myLoanRequestModel.dart';
+import 'package:pretevest/core/api/data_models/user_response/userResponseModel.dart';
 
 import '../../locator.dart';
 import '../../ui/responsive_state.dart/base_view_model.dart';
@@ -15,6 +16,8 @@ class UserProvider extends BaseNotifier with Validators {
   var userApi = locator<UserApi>();
   UserResponse userData = UserResponse();
   MyLoanRequest loanRequest = MyLoanRequest();
+  FoundWalletResponse foundWalletResponse = FoundWalletResponse();
+
 
   Future<bool> getUserData() async {
     setState(ViewState.Busy);
@@ -37,6 +40,27 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
+
+  Future<bool> foundWallet(String amount) async {
+    setState(ViewState.Busy);
+
+    try {
+     foundWalletResponse =   await userApi.foundWallet(amount: amount);
+      setState(ViewState.Idle);
+
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // prefs.setString("token", res.data!.token!);
+      return true;
+    } on NetworkException {
+      displayError(
+          error: 'No Internet!',
+          message: 'Please check your internet Connection');
+    } catch (e) {
+      displayError(error: 'An Error occured!', message: '${e}');
+    }
+    setState(ViewState.Idle);
+    return false;
+  }
   Future<bool> getLoanRequest() async {
     setState(ViewState.Busy);
 

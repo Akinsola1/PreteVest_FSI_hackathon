@@ -1,8 +1,9 @@
 import 'package:pretevest/core/api/User_api/user_api.dart';
 import 'package:pretevest/core/api/data_models/auth_response/loginresponse.dart';
 import 'package:pretevest/core/api/data_models/auth_response/registerEmailOTPResponse.dart';
-import 'package:pretevest/core/api/data_models/user_response/myLoanRequest.dart';
-import 'package:pretevest/core/api/data_models/user_response/userResponse.dart';
+import 'package:pretevest/core/api/data_models/user_response/foundWalletModel.dart';
+import 'package:pretevest/core/api/data_models/user_response/myLoanRequestModel.dart';
+import 'package:pretevest/core/api/data_models/user_response/userResponseModel.dart';
 import 'package:pretevest/locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,15 +76,36 @@ class UserApiImplementation implements UserApi {
       "title": title,
       "desc": description,
     };
-     SharedPreferences preference = await SharedPreferences.getInstance();
+    SharedPreferences preference = await SharedPreferences.getInstance();
     String token = preference.getString('token') ?? '';
-    var responsebody =
-        await server.post(ApiRoutes.requestLoan, {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Token ${token}',
-    }, jsonEncode(val));
+    var responsebody = await server.post(
+        ApiRoutes.requestLoan,
+        {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token ${token}',
+        },
+        jsonEncode(val));
     ApiResponse response = ApiResponse.fromJson(responsebody);
+    return response;
+  }
+
+  @override
+  Future<FoundWalletResponse> foundWallet({String? amount}) async {
+    Map val = {
+      "amount": amount,
+    };
+    SharedPreferences preference = await SharedPreferences.getInstance();
+    String token = preference.getString('token') ?? '';
+    var responsebody = await server.post(
+        ApiRoutes.foundWallet,
+        {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token ${token}',
+        },
+        jsonEncode(val));
+    FoundWalletResponse response = foundWalletResponseFromJson(responsebody);
     return response;
   }
 }
