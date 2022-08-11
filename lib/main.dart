@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:pretevest/core/contant/provider.dart';
+import 'package:provider/provider.dart';
 
+import 'locator.dart';
 import 'ui/screen_route.dart/screen_routes.dart';
 
 void main() {
-  runApp(const MyApp());
+  setupLocator();
+  runApp(MultiProvider(providers: AppProviders.providers, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

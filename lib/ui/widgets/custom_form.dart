@@ -11,7 +11,7 @@ class CustomTextField extends StatefulWidget {
   final bool? readOnly;
   final bool? changePhoneNumber;
   final int? maxLines;
-  final Function? validator;
+  final String? Function(String?)? validator;
   final Widget? prefix;
   final String? hintText;
   final String? labelText;
@@ -76,8 +76,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           widget.labelText != null
               ? Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text( widget.labelText!,
-                      style:AppFonts.bodyBlack),
+                  child: Text(widget.labelText!, style: AppFonts.bodyBlack),
                 )
               : SizedBox(),
           SizedBox(
@@ -102,12 +101,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       controller: widget.controller,
                       // onTap: widget.onTap,
                       obscureText: hide,
-                      obscuringCharacter:'•',
+                      obscuringCharacter: '•',
                       maxLines: widget.maxLines ?? 1,
-                      // validator: widget.validator,
+                      validator: widget.validator,
                       decoration: InputDecoration(
                         // labelText: widget.labelText,
-                        
+
                         prefixIcon: widget.prefix,
                         isDense: false,
                         fillColor: widget.fillColor,

@@ -2,15 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
+import 'package:pretevest/core/repositories/user_repositories.dart';
 import 'package:pretevest/ui/responsiveness/responsive.dart';
-import 'package:pretevest/ui/screens/Authentication/signIn_screen.dart';
-import 'package:pretevest/ui/screens/Authentication/signUp_screen.dart';
 import 'package:pretevest/ui/theme/colors.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
 import 'package:pretevest/ui/widgets/customAppbar.dart';
 import 'package:pretevest/ui/widgets/customButton.dart';
-import 'package:pretevest/ui/widgets/custom_form.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../responsive_state.dart/responsive_state.dart';
+import '../../screen_route.dart/screen_routes.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -20,116 +22,105 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final userProv = Provider.of<UserProvider>(context);
+    var userData = userProv.userData;
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Stack(
-          children: [
-            Column(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ResponsiveState(
+          state: userProv.state,
+          busyWidget: const SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(strokeWidth: 6)),
+          idleWidget: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Stack(
               children: [
-                Container(
-                  width: double.infinity,
-                  child: customAppBar(),
-                ),
-                Divider(),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    responsive.isMobile(context)
-                        ? const SizedBox()
-                        : Column(
-                            children: [
-                              desktopNav(
-                                image: 'assets/images/Home.png',
-                                label: 'Home',
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              desktopNav(
-                                image: 'assets/images/Nest.png',
-                                label: 'Invest',
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              desktopNav(
-                                image: 'assets/images/Transaction.png',
-                                label: 'Loan',
-                              )
-                            ],
-                          ),
-                    const SizedBox(
-                      width: 30,
+                    Container(
+                      width: double.infinity,
+                      child: customAppBar(
+                        name: '${userData.data?.firstname}',
+                      ),
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                // border: Border.all(
-                                //     color: Colors.black.withOpacity(0.5)),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 15),
+                    Divider(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: responsive.isMobile(context)
+                          ? double.infinity
+                          : size.width / 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Wallet Balance',
+                              style: AppFonts.tinyBlack2,
+                            ),
+                            Text(
+                              '₦ ${userData.data?.balance}',
+                              style: AppFonts.blueHeader,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CustomButton(onTap: () {}, label: 'Found wallet'),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // border: Border.all(
+                                  //     color: Colors.black.withOpacity(0.5)),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
-                                children: [
+                                children: const [
                                   Text(
-                                    'Get Started',
+                                    'To-Do List',
                                     style: AppFonts.bodyBlack,
                                   ),
-                                  const SizedBox(
-                                    height: 20,
+                                  const SizedBox(height: 10,),
+                                  getStartedTask(
+                                    title: 'Complete your KYC',
+                                    subtitle:
+                                        'Provide information to verify your identity',
                                   ),
-                                  getStartedTask(),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  getStartedTask(),
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  getStartedTask(),
-                                  const SizedBox(
-                                    height: 10,
+                                  getStartedTask(
+                                    title: 'Lets know more about you',
+                                    subtitle:
+                                        'Provide answers to the following information',
                                   ),
-                                  getStartedTask(),
                                 ],
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],
-                )
+                ),
               ],
             ),
-            responsive.isMobile(context)
-                ? SizedBox()
-                : Positioned(
-                    bottom: 10,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('© PreteVest')],
-                    ),
-                  )
-          ],
+          ),
         ),
       ),
     );
@@ -137,8 +128,12 @@ class _DashBoardState extends State<DashBoard> {
 }
 
 class getStartedTask extends StatelessWidget {
+  final String title;
+  final String subtitle;
   const getStartedTask({
     Key? key,
+    required this.title,
+    required this.subtitle,
   }) : super(key: key);
 
   @override
@@ -157,9 +152,8 @@ class getStartedTask extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Verify your identity', style: AppFonts.tinyBlackBold),
-                  Text(
-                      'Provide documents to identify yourself before making transaction',
+                  Text(title, style: AppFonts.tinyBlackBold),
+                  Text(subtitle,
                       overflow: TextOverflow.ellipsis,
                       style: AppFonts.tinyBlack2),
                 ],

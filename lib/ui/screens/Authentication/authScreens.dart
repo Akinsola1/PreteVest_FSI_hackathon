@@ -8,6 +8,7 @@ import 'package:pretevest/ui/theme/colors.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
 import 'package:pretevest/ui/widgets/customButton.dart';
 import 'package:pretevest/ui/widgets/custom_form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -16,9 +17,18 @@ class AuthScreen extends StatefulWidget {
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
+@override
+void initState() {
+  clearData();
+  
+}
+clearData ()async {
+  SharedPreferences preferences =await  SharedPreferences.getInstance();
+  preferences.clear();
+}
+
 class _AuthScreenState extends State<AuthScreen> {
   String authType = 'Login';
-
 
   bool login = false;
   bool register = false;
@@ -94,7 +104,15 @@ class _AuthScreenState extends State<AuthScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                buldUi(authType),
+                SizedBox(
+                  height: size.height / 1.6,
+                  width: responsive.isMobile(context)
+                      ? size.width
+                      : responsive.isTablet(context)
+                          ? size.width / 2
+                          : size.width / 3,
+                  child: buldUi(authType),
+                )
               ],
             ),
             Positioned(

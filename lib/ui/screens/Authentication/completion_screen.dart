@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:lottie/lottie.dart';
+
 import 'package:pretevest/ui/responsiveness/responsive.dart';
 import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
 import 'package:pretevest/ui/theme/colors.dart';
@@ -11,7 +13,15 @@ import 'package:pretevest/ui/widgets/customButton.dart';
 import 'package:pretevest/ui/widgets/custom_form.dart';
 
 class CompletionScreen extends StatefulWidget {
-  const CompletionScreen({Key? key}) : super(key: key);
+  final String title;
+  final VoidCallback onpressed;
+  final Widget description;
+  const CompletionScreen({
+    Key? key,
+    required this.title,
+    required this.onpressed,
+    required this.description,
+  }) : super(key: key);
 
   @override
   State<CompletionScreen> createState() => _CompletionScreenState();
@@ -54,16 +64,13 @@ class _CompletionScreenState extends State<CompletionScreen> {
                           : size.width / 3,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(
-                        color: AppColors.primaryColor,
-                      ),
                       borderRadius: BorderRadius.circular(10)),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 20),
                     child: Stack(
                       children: [
-                        Lottie.asset('assets/lottie/completion.json'),
+                        // Lottie.asset('assets/lottie/completion.json'),
                         Center(
                           child: Column(
                             children: [
@@ -73,27 +80,13 @@ class _CompletionScreenState extends State<CompletionScreen> {
                                 width: 100,
                               ),
                               Text(
-                                'Registration Completed',
+                                widget.title,
                                 style: AppFonts.blueHeader,
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              RichText(
-                                text: TextSpan(
-                                  text: 'Hi ',
-                                  style: AppFonts.tinyBlack,
-                                  children: const <TextSpan>[
-                                    TextSpan(
-                                        text: 'Faruq ',
-                                        style: AppFonts.tinyBlue),
-                                    TextSpan(
-                                        text:
-                                            'your account is ready to go, ensure you provide neccecary document when needed',
-                                        style: AppFonts.tinyBlack),
-                                  ],
-                                ),
-                              ),
+                              widget.description,
                               const SizedBox(
                                 height: 20,
                               ),
@@ -101,12 +94,7 @@ class _CompletionScreenState extends State<CompletionScreen> {
                                 children: [
                                   Expanded(
                                       child: CustomButton(
-                                          onTap: () {
-                                            Navigator.pushNamedAndRemoveUntil(
-                                                context,
-                                                RouteNames.navBar,
-                                                (route) => false);
-                                          },
+                                          onTap: widget.onpressed,
                                           label: 'Continue')),
                                 ],
                               )

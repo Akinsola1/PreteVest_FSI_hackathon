@@ -16,39 +16,19 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     late PageController? pageViewController;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return PageView(
+      controller: pageViewController = PageController(initialPage: 0),
+      scrollDirection: Axis.horizontal,
+      physics: NeverScrollableScrollPhysics(),
       children: [
-        Container(
-          height: responsive.isMobile(context)
-              ? size.height / 1.5
-              : size.height / 2,
-          width: responsive.isMobile(context)
-              ? size.width
-              : responsive.isTablet(context)
-                  ? size.width / 2
-                  : size.width / 3,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: AppColors.primaryColor,
-              ),
-              borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: PageView(
-              controller: pageViewController = PageController(initialPage: 0),
-              scrollDirection: Axis.horizontal,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                emailSignUp(pageViewController: pageViewController),
-                CreatePassword(pageViewController: pageViewController),
-                emailValidationScreen(pageViewController: pageViewController),
-                PersonalInfo(pageViewController: pageViewController),
-              ],
-            ),
-          ),
-        )
+        emailSignUp(
+          pageViewController: pageViewController,
+        ),
+        CreatePassword(
+          pageViewController: pageViewController,
+        ),
+        emailValidationScreen(pageViewController: pageViewController),
+        PersonalInfo(pageViewController: pageViewController),
       ],
     );
   }

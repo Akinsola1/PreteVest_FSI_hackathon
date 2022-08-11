@@ -1,8 +1,15 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:pretevest/core/repositories/user_repositories.dart';
 import 'package:pretevest/ui/responsiveness/responsive.dart';
+import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
 import 'package:pretevest/ui/screens/dashboard/dashboard.dart';
+import 'package:pretevest/ui/screens/invest/investScreen.dart';
+import 'package:pretevest/ui/screens/loan/loanScreen.dart';
+import 'package:pretevest/ui/screens/setting/setting_screen.dart';
 import 'package:pretevest/ui/theme/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class base_screen extends StatefulWidget {
   const base_screen({Key? key}) : super(key: key);
@@ -12,24 +19,44 @@ class base_screen extends StatefulWidget {
 }
 
 class _base_screenState extends State<base_screen> {
+   @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      final userProv = Provider.of<UserProvider>(context, listen: false);
+      userProv.getUserData();
+    });
+
+    checkToken();
+
+    super.initState();
+  }
+
+  checkToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    print('data valid:${preferences.getString('token')}');
+    if (preferences.getString('token')!.isEmpty) {
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, RouteNames.authScreen, (route) => false);
+    }
+  }
+
   // bottom navigation bar
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     DashBoard(),
-    DashBoard(),
-    DashBoard(),
-    DashBoard(),
+    InvestScreen(),
+    LoanScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return responsive.isMobile(context) ? 
-    Scaffold(
+    return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
+          elevation: 0,
           iconSize: 23,
           backgroundColor: AppColors.scaffoldBackground,
           type: BottomNavigationBarType.fixed,
@@ -61,6 +88,6 @@ class _base_screenState extends State<base_screen> {
               _selectedIndex = index;
             });
           }),
-    ):DashBoard();
+    );
   }
 }
