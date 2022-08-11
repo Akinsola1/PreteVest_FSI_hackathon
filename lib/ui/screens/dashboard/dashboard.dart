@@ -4,13 +4,16 @@ import 'dart:js' as js;
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
+import 'package:provider/provider.dart';
+
 import 'package:pretevest/core/repositories/user_repositories.dart';
 import 'package:pretevest/ui/responsiveness/responsive.dart';
 import 'package:pretevest/ui/theme/colors.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
 import 'package:pretevest/ui/widgets/customAppbar.dart';
 import 'package:pretevest/ui/widgets/customButton.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../responsive_state.dart/responsive_state.dart';
 import '../../widgets/widgetsExport.dart';
@@ -23,6 +26,19 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      final userProv = Provider.of<UserProvider>(context, listen: false);
+      userProv.getUserData();
+    });
+
+
+    super.initState();
+  }
+
+ 
+
   TextEditingController amount = TextEditingController();
   final _key = GlobalKey<FormState>();
 
@@ -31,6 +47,8 @@ class _DashBoardState extends State<DashBoard> {
     Size size = MediaQuery.of(context).size;
     final userProv = Provider.of<UserProvider>(context);
     var userData = userProv.userData;
+    bool? completeKyc = userData.data?.kycVerified;
+    bool? infoCompleted = userData.data?.infoCompleted;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -86,7 +104,7 @@ class _DashBoardState extends State<DashBoard> {
                                       return AlertDialog(
                                         insetPadding: EdgeInsets.all(10),
                                         title: Text(
-                                          "FOund Wallet",
+                                          "Fund Wallet",
                                           style: AppFonts.blueHeader,
                                         ),
                                         content: Form(
@@ -147,7 +165,7 @@ class _DashBoardState extends State<DashBoard> {
                                     },
                                   );
                                 },
-                                label: 'Found wallet'),
+                                label: 'Fund wallet'),
                             const SizedBox(
                               height: 20,
                             ),
@@ -161,7 +179,7 @@ class _DashBoardState extends State<DashBoard> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
-                                children: const [
+                                children: [
                                   Text(
                                     'To-Do List',
                                     style: AppFonts.bodyBlack,
@@ -170,14 +188,16 @@ class _DashBoardState extends State<DashBoard> {
                                     height: 10,
                                   ),
                                   getStartedTask(
+                                    done: completeKyc ?? false,
                                     title: 'Complete your KYC',
                                     subtitle:
                                         'Provide information to verify your identity',
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 10, 
                                   ),
                                   getStartedTask(
+                                    done: infoCompleted ??false,
                                     title: 'Lets know more about you',
                                     subtitle:
                                         'Provide answers to the following information',
@@ -203,10 +223,12 @@ class _DashBoardState extends State<DashBoard> {
 class getStartedTask extends StatelessWidget {
   final String title;
   final String subtitle;
+  final bool done;
   const getStartedTask({
     Key? key,
     required this.title,
     required this.subtitle,
+    required this.done,
   }) : super(key: key);
 
   @override
@@ -225,7 +247,13 @@ class getStartedTask extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: AppFonts.tinyBlackBold),
+                  Text(title,
+                      style: TextStyle(
+                          decoration: done ? TextDecoration.lineThrough : null,
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontFamily: 'openSansLight',
+                          fontWeight: FontWeight.w700)),
                   Text(subtitle,
                       overflow: TextOverflow.ellipsis,
                       style: AppFonts.tinyBlack2),
@@ -242,7 +270,7 @@ class getStartedTask extends StatelessWidget {
               child: Center(
                 child: Icon(
                   Icons.done,
-                  color: Colors.white,
+                  color: done ? AppColors.primaryColor : Colors.white,
                   size: 12,
                 ),
               ),

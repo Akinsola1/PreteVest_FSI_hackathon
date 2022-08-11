@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pretevest/ui/screens/Authentication/authScreens.dart';
 import 'package:pretevest/ui/screens/Authentication/completion_screen.dart';
 import 'package:pretevest/ui/screens/Authentication/signIn_screen.dart';
+import 'package:pretevest/ui/screens/bank/bankScreen.dart';
 import 'package:pretevest/ui/screens/dashboard/dashboard.dart';
 import 'package:pretevest/ui/screens/dashboard/nav_bar.dart';
 import 'package:pretevest/ui/screens/foundWallet/foundWalletScreen.dart';
@@ -22,6 +23,8 @@ class RouteNames {
   static const String loanScreen = 'loanScreen';
   static const String investScreen = 'investScreen';
   static const String foundWalletScreen = 'foundWalletScreen';
+  static const String bankScreen = 'bankScreen';
+
 
   static Map<String, Widget Function(BuildContext)> routes = {
     ///Named routes to be added here in this format
@@ -35,6 +38,8 @@ class RouteNames {
     loanScreen: (context) => LoanScreen(),
     investScreen: (context) => InvestScreen(),
     foundWalletScreen: (context) => FoundWalletScreen(),
+    bankScreen: (context) => BankScreen(),
+
   };
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -56,6 +61,8 @@ class RouteNames {
         return MaterialPageRoute(builder: (context) => InvestScreen());
       case foundWalletScreen:
         return MaterialPageRoute(builder: (context) => FoundWalletScreen());
+      case bankScreen:
+        return MaterialPageRoute(builder: (context) => BankScreen());
       //Default Route is error route
       default:
         return CupertinoPageRoute(

@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:pretevest/core/repositories/user_repositories.dart';
 
 import 'package:pretevest/ui/responsiveness/responsive.dart';
 import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
 import 'package:pretevest/ui/theme/colors.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final userProv = Provider.of<UserProvider>(context);
 
     return Scaffold(
       body: Center(
@@ -49,7 +52,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   Center(
                     child: Text(
-                      'Akinsola faruq',
+                      '${userProv.userData.data?.firstname}',
                       style: AppFonts.bodyBlue,
                     ),
                   ),
@@ -95,9 +98,11 @@ class _SettingScreenState extends State<SettingScreen> {
                   settingOptions(
                     size: size,
                     subtitle: 'Change your wallet preference',
-                    title: 'Wallet setting',
+                    title: 'Bank setting',
                     icon: Icons.wallet,
-                    onpressed: (){},
+                    onpressed: (){
+                      Navigator.pushNamed(context, RouteNames.bankScreen);
+                    },
                   ),
                   const SizedBox(
                     height: 20,

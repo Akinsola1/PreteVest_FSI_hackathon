@@ -26,7 +26,7 @@ class Validators {
     return null;
   }
   String? validateAmount(String value) {
-    if (value.length < 5) {
+    if (value.length < 4) {
       return 'Amount too small';
     }
     if (value.length > 10) {
@@ -55,6 +55,11 @@ class Validators {
   String? validateComment(String value) {
     if (value.isEmpty) return "Invalid comment";
 
+    return null;
+  }
+
+   String? validateAccountNumber(String value) {
+    if (value.length < 9) return "Incomplete Account Number";
     return null;
   }
 

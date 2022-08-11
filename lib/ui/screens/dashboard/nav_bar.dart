@@ -19,28 +19,17 @@ class base_screen extends StatefulWidget {
 }
 
 class _base_screenState extends State<base_screen> {
-   @override
-  void initState() {
-    Future.delayed(Duration.zero, () {
-      final userProv = Provider.of<UserProvider>(context, listen: false);
-      userProv.getUserData();
-    });
 
-    checkToken();
 
-    super.initState();
-  }
 
-  checkToken() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    print('data valid:${preferences.getString('token')}');
-    if (preferences.getString('token')!.isEmpty) {
-
-      Navigator.pushNamedAndRemoveUntil(
-          context, RouteNames.authScreen, (route) => false);
-    }
-  }
-
+  // checkToken() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   print('data valid:${preferences.getString('token')}');
+  //   if (preferences.getString('token')!.isEmpty) {
+  //     Navigator.pushNamedAndRemoveUntil(
+  //         context, RouteNames.authScreen, (route) => false);
+  //   }
+  // }
   // bottom navigation bar
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
