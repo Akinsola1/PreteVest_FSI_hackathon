@@ -232,7 +232,7 @@ class UserApiImplementation implements UserApi  {
    SharedPreferences preference = await SharedPreferences.getInstance();
     String token = preference.getString('token') ?? '';
     var responsebody =
-        await server.post(ApiRoutes.resolvedBank, {
+        await server.post(ApiRoutes.saveBank, {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Token ${token}',

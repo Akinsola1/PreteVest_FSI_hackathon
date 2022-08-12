@@ -9,6 +9,7 @@ import 'package:pretevest/ui/responsive_state.dart/responsive_state.dart';
 import 'package:pretevest/ui/responsiveness/responsive.dart';
 import 'package:pretevest/ui/screen_route.dart/screen_routes.dart';
 import 'package:pretevest/ui/screens/Authentication/completion_screen.dart';
+import 'package:pretevest/ui/screens/loan/active_loan.dart';
 import 'package:pretevest/ui/screens/loan/myLoan_request.dart';
 import 'package:pretevest/ui/theme/colors.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
@@ -113,7 +114,7 @@ class _LoanScreenState extends State<LoanScreen> {
                           ),
                           Flexible(
                               child: TabBarView(
-                            children: [MyLoanRequestScreen(), MyLoanRequestScreen()],
+                            children: [MyLoanRequestScreen(), MyActiveLoan()],
                           ))
                         ],
                       ),

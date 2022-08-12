@@ -30,7 +30,6 @@ class UserProvider extends BaseNotifier with Validators {
 
   ResolveBankModel resolvedBankDetails = ResolveBankModel();
 
-
   Future<bool> getUserData() async {
     setState(ViewState.Busy);
 
@@ -52,12 +51,11 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
-
   Future<bool> foundWallet(String amount) async {
     setState(ViewState.Busy);
 
     try {
-     foundWalletResponse =   await userApi.foundWallet(amount: amount);
+      foundWalletResponse = await userApi.foundWallet(amount: amount);
       setState(ViewState.Idle);
 
       // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -73,6 +71,7 @@ class UserProvider extends BaseNotifier with Validators {
     setState(ViewState.Idle);
     return false;
   }
+
   Future<bool> getLoanRequest() async {
     setState(ViewState.Busy);
 
@@ -111,12 +110,11 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
-  Future<bool> getAllLoanRequest(
-      ) async {
+  Future<bool> getAllLoanRequest() async {
     setState(ViewState.Busy);
 
     try {
-     allLoanRequest =  await userApi.getAllLoanRequest();
+      allLoanRequest = await userApi.getAllLoanRequest();
       setState(ViewState.Idle);
       return true;
     } on NetworkException {
@@ -130,10 +128,10 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
-
-   Future<bool> pledgeToALaon(
-    double amount, int owner,
-      ) async {
+  Future<bool> pledgeToALaon(
+    double amount,
+    int owner,
+  ) async {
     setState(ViewState.Busy);
 
     try {
@@ -155,7 +153,7 @@ class UserProvider extends BaseNotifier with Validators {
     setState(ViewState.Busy);
 
     try {
-     bankList =  await userApi.getAllBank();
+      bankList = await userApi.getAllBank();
       setState(ViewState.Idle);
       return true;
     } on NetworkException {
@@ -173,7 +171,8 @@ class UserProvider extends BaseNotifier with Validators {
     setState(ViewState.Busy);
 
     try {
-     resolvedBankDetails =  await userApi.resolvedBank(accountNumber:accountNumber, bankCode: bankCode );
+      resolvedBankDetails = await userApi.resolvedBank(
+          accountNumber: accountNumber, bankCode: bankCode);
       setState(ViewState.Idle);
       return true;
     } on NetworkException {
@@ -187,11 +186,11 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
-   Future<bool> getMyBank() async {
+  Future<bool> getMyBank() async {
     setState(ViewState.Busy);
 
     try {
-     myBankList =  await userApi.getBank();
+      myBankList = await userApi.getBank();
       setState(ViewState.Idle);
       return true;
     } on NetworkException {
@@ -205,11 +204,11 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
-     Future<bool> getpledgedLoan() async {
+  Future<bool> getpledgedLoan() async {
     setState(ViewState.Busy);
 
     try {
-     pledgedLoan =  await userApi.getPledgedLoan();
+      pledgedLoan = await userApi.getPledgedLoan();
       setState(ViewState.Idle);
       return true;
     } on NetworkException {
@@ -223,6 +222,28 @@ class UserProvider extends BaseNotifier with Validators {
     return false;
   }
 
+  Future<bool> saveBankAccount(
+      String accountName, accountNumber, bankName, bankCode) async {
+    setState(ViewState.Busy);
+
+    try {
+      await userApi.saveBank(
+          bankCode: bankCode,
+          bankName: bankName,
+          accountName: accountName,
+          accountNumber: accountNumber);
+      setState(ViewState.Idle);
+      return true;
+    } on NetworkException {
+      displayError(
+          error: 'No Internet!',
+          message: 'Please check your internet Connection');
+    } catch (e) {
+      displayError(error: 'An Error occured!', message: '${e}');
+    }
+    setState(ViewState.Idle);
+    return false;
+  }
 
   SnackbarController displayError(
       {required String error, required String message}) {

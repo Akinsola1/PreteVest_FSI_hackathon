@@ -13,14 +13,14 @@ import 'package:pretevest/ui/widgets/customButton.dart';
 import 'package:pretevest/ui/widgets/widgetsExport.dart';
 import 'package:provider/provider.dart';
 
-class MyLoanRequestScreen extends StatefulWidget {
-  const MyLoanRequestScreen({Key? key}) : super(key: key);
+class MyActiveLoan extends StatefulWidget {
+  const MyActiveLoan({Key? key}) : super(key: key);
 
   @override
-  State<MyLoanRequestScreen> createState() => _MyLoanRequestScreenState();
+  State<MyActiveLoan> createState() => _MyActiveLoanState();
 }
 
-class _MyLoanRequestScreenState extends State<MyLoanRequestScreen> {
+class _MyActiveLoanState extends State<MyActiveLoan> {
   @override
   Widget build(BuildContext context) {
     final userProv = Provider.of<UserProvider>(context);
@@ -38,19 +38,14 @@ class _MyLoanRequestScreenState extends State<MyLoanRequestScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               
-             
-                CustomButton(
-                    onTap: () {
-                      showAlertDialog(context);
-                    },
-                    label: 'Make  Loan Request'),
-                const SizedBox(
-                  height: 20,
+         
+                Text(
+                  'Active Loan',
+                  style: AppFonts.tinyBlackBold,
                 ),
                 Text(
-                  'Loan Requests',
-                  style: AppFonts.tinyBlackBold,
+                  'After pledging to your loan as been the completed it moves to active',
+                  style: AppFonts.tinyBlack2,
                 ),
                 const SizedBox(height: 20),
                 Expanded(

@@ -151,7 +151,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     size: size,
                     subtitle: 'Delete your pretevest Account',
                     title: 'Delete Account',
-                    icon: Icons.logout,
+                    icon: Icons.delete_forever,
                     onpressed: (){},
                   ),
                 ],

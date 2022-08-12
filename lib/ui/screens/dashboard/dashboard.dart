@@ -33,11 +33,8 @@ class _DashBoardState extends State<DashBoard> {
       userProv.getUserData();
     });
 
-
     super.initState();
   }
-
- 
 
   TextEditingController amount = TextEditingController();
   final _key = GlobalKey<FormState>();
@@ -113,6 +110,7 @@ class _DashBoardState extends State<DashBoard> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               CustomTextField(
+                                              isAmount: true,
                                                 labelText: "Amount",
                                                 hintText:
                                                     "₦10,000 - ₦100,000,000",
@@ -194,10 +192,10 @@ class _DashBoardState extends State<DashBoard> {
                                         'Provide information to verify your identity',
                                   ),
                                   const SizedBox(
-                                    height: 10, 
+                                    height: 10,
                                   ),
                                   getStartedTask(
-                                    done: infoCompleted ??false,
+                                    done: infoCompleted ?? false,
                                     title: 'Lets know more about you',
                                     subtitle:
                                         'Provide answers to the following information',

@@ -2,10 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
 
 class CustomTextField extends StatefulWidget {
   final bool? hasLeading;
+  final bool isAmount;
   final bool? isDate;
   final bool? isPassword;
   final bool? readOnly;
@@ -33,6 +35,7 @@ class CustomTextField extends StatefulWidget {
     this.hasLeading = false,
     this.isDate = false,
     this.isPassword = false,
+    this.isAmount = false,
     this.readOnly = false,
     this.changePhoneNumber = false,
     this.maxLines,
@@ -94,6 +97,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 Expanded(
                   child: Center(
                     child: TextFormField(
+  inputFormatters: [
+    widget.isAmount ?
+    ThousandsFormatter():FilteringTextInputFormatter.deny('')
+  ],
                       autovalidateMode: widget.autovalidateMode,
                       keyboardType: widget.textInputType,
                       textInputAction: widget.textInputAction,

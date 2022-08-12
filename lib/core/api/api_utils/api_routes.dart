@@ -26,7 +26,7 @@ class ApiRoutes {
   //bank 
   static const String getALlBanks = '$base/banks';
   static const String resolvedBank = '$base/banks/resolve';
-  static const String saveBank = '$base/banks/resolve';
+  static const String saveBank = '$base/banks/save';
   static const String myBank = '$base/banks/my-banks';
 
 

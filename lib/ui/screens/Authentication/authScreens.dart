@@ -47,82 +47,69 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Stack(
+        child: Column(
           children: [
-            Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'PreteVest',
-                        style: AppFonts.blueHeader,
-                      ),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                authType = 'Login';
-                                login = true;
-                                register = false;
-                              });
-                            },
-                            child: Text(
-                              'Login',
-                              style: login
-                                  ? AppFonts.bodyBlue
-                                  : AppFonts.bodyBlack,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                authType = 'Register';
-                                login = false;
-                                register = true;
-                              });
-                            },
-                            child: Text(
-                              'Register',
-                              style: register
-                                  ? AppFonts.bodyBlue
-                                  : AppFonts.bodyBlack,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Divider(),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: size.height / 1.6,
-                  width: responsive.isMobile(context)
-                      ? size.width
-                      : responsive.isTablet(context)
-                          ? size.width / 2
-                          : size.width / 3,
-                  child: buldUi(authType),
-                )
-              ],
-            ),
-            Positioned(
-              bottom: 10,
-              left: 0,
-              right: 0,
+            Container(
+              width: double.infinity,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text('© PreteVest')],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'PreteVest',
+                    style: AppFonts.blueHeader,
+                  ),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            authType = 'Login';
+                            login = true;
+                            register = false;
+                          });
+                        },
+                        child: Text(
+                          'Login',
+                          style: login
+                              ? AppFonts.bodyBlue
+                              : AppFonts.bodyBlack,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            authType = 'Register';
+                            login = false;
+                            register = true;
+                          });
+                        },
+                        child: Text(
+                          'Register',
+                          style: register
+                              ? AppFonts.bodyBlue
+                              : AppFonts.bodyBlack,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
               ),
+            ),
+            Divider(),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: size.height / 1.6,
+              width: responsive.isMobile(context)
+                  ? size.width
+                  : responsive.isTablet(context)
+                      ? size.width / 2
+                      : size.width / 3,
+              child: buldUi(authType),
             )
           ],
         ),

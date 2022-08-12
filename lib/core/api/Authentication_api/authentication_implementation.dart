@@ -63,11 +63,7 @@ class AuthenticationApiImpl implements AuthenticationApi {
     String token = prefs.getString("token") ?? "";
     var responsebody = await server.post(
         ApiRoutes.registerEmailOTP,
-        {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Token ${token}',
-        },
+        header,
         jsonEncode(val));
 
     RegisterEmailOtp response = registerEmailOtpFromJson(responsebody);

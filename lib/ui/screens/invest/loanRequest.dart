@@ -161,6 +161,7 @@ class _LoanRequestState extends State<LoanRequest> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     CustomTextField(
+                      isAmount: true,
                       labelText: "Amount",
                       hintText: "₦1000 - ₦100,000,000",
                       controller: amount,

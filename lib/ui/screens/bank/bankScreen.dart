@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pretevest/core/api/data_models/user_response/getAllBankModel.dart';
+import 'package:pretevest/core/api/data_models/user_response/resolvedBankModel.dart';
 import 'package:pretevest/core/repositories/user_repositories.dart';
 import 'package:pretevest/ui/responsiveness/responsive.dart';
 import 'package:pretevest/ui/theme/textStyle.dart';
@@ -32,8 +33,7 @@ class _BankScreenState extends State<BankScreen> {
 
   GetAllBankModel selectedbank = GetAllBankModel();
   bool accountNameAvailable = false;
-  String accountAvailble = "";
-
+  String accountAvailble = "sddd";
   @override
   Widget build(BuildContext context) {
     final userProv = Provider.of<UserProvider>(context);
@@ -108,14 +108,19 @@ class _BankScreenState extends State<BankScreen> {
                               ? GetAllBankModel(name: "Choose a bank")
                               : selectedbank,
                         ),
-                        accountNameAvailable
-                            ? Text(
-                                accountAvailble,
-                                style: AppFonts.tinyBlue2,
-                              )
-                            : SizedBox(),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
+                        ),
+                        Center(
+                          child: accountNameAvailable
+                              ? Text(
+                                  accountAvailble,
+                                  style: AppFonts.tinyBlue2,
+                                )
+                              : SizedBox(),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Center(
                           child: ResponsiveState(
@@ -130,23 +135,54 @@ class _BankScreenState extends State<BankScreen> {
                                 Expanded(
                                   child: CustomButton(
                                       onTap: () async {
-                                        if (!_key.currentState!.validate())
-                                          return;
+                                        if (!accountNameAvailable) {
+                                          if (!_key.currentState!.validate())
+                                            return;
 
-                                        bool response =
-                                            await userProv.resolvedBank(
-                                                accountNumber.text,
-                                                selectedbank.code!);
+                                          bool response =
+                                              await userProv.resolvedBank(
+                                                  accountNumber.text,
+                                                  selectedbank.code!);
 
-                                        if (response) {
-                                          setState(() {
-                                            accountNameAvailable = true;
-                                          });
+                                          if (response) {
+                                            setState(() {
+                                              accountNameAvailable = true;
+                                              accountAvailble = userProv
+                                                  .resolvedBankDetails
+                                                  .data!
+                                                  .accountName!;
+                                              print(userProv.resolvedBankDetails
+                                                  .data!.accountName!);
+                                            });
+                                          }
+                                        } else {
+                                          if (!_key.currentState!.validate())
+                                            return;
+
+                                          bool response =
+                                              await userProv.saveBankAccount(
+                                                  userProv.resolvedBankDetails
+                                                      .data!.accountName!,
+                                                  accountNumber.text,
+                                                  selectedbank.name,
+                                                  selectedbank.code);
+
+                                          if (response) {
+                                            setState(() {
+                                              accountNameAvailable = true;
+                                              accountAvailble = userProv
+                                                  .resolvedBankDetails
+                                                  .data!
+                                                  .accountName!;
+                                              print(userProv.resolvedBankDetails
+                                                  .data!.accountName!);
+                                            });
+                                          }
                                         }
                                       },
                                       label: accountNameAvailable
-                                          ? 'Add bank'
-                                          : 'Fetch bank information'),
+                                          ? 'Add Bank'
+                                          : 'Fetch Bank Details'),
                                 ),
                               ],
                             ),
@@ -167,25 +203,34 @@ class _BankScreenState extends State<BankScreen> {
                               itemCount: userProv.myBankList.length,
                               itemBuilder: (context, index) {
                                 return userProv.bankList.isEmpty
-                                    ? Text('No bank added yets', style: AppFonts.tinyBlackBold,)
-                                    : Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              '${userProv.myBankList.elementAt(index).accName}',
-                                              style: AppFonts.tinyBlue2Bold,
+                                    ? Text(
+                                        'No bank added yets',
+                                        style: AppFonts.tinyBlackBold,
+                                      )
+                                    : Card(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  '${userProv.myBankList.elementAt(index).accName}',
+                                                  style: AppFonts.tinyBlue2Bold,
+                                                ),
+                                                Text(
+                                                  '${userProv.myBankList.elementAt(index).accNum}',
+                                                  style: AppFonts.tinyBlackBold,
+                                                )
+                                              ],
                                             ),
-                                            Text(
-                                              '${userProv.myBankList.elementAt(index).accNum}',
-                                              style: AppFonts.tinyBlackBold,
-                                            )
-                                          ],
+                                          ),
                                         ),
-                                      );
+                                    );
                               }),
                         )
                       ],

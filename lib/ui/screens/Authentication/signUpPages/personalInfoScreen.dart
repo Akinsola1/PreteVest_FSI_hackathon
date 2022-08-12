@@ -156,7 +156,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                     MaterialPageRoute(
                                         builder: (context) => CompletionScreen(
                                               title: 'Registration Completed',
-                                              onpressed: () {},
+                                              onpressed: () {
+
+                                                Navigator.pushNamedAndRemoveUntil(context, RouteNames.navBar, (route) => false);
+                                              },
                                               description: RichText(
                                                 text: TextSpan(
                                                   text: 'Hi ',
@@ -168,7 +171,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                                             AppFonts.tinyBlue),
                                                     TextSpan(
                                                         text:
-                                                            'your account is ready to go, ensure you provide neccecary document when needed',
+                                                            'your account is ready to go, ensure you provide neccecary document when needed.',
                                                         style:
                                                             AppFonts.tinyBlack),
                                                   ],
